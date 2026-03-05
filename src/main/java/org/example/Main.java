@@ -22,5 +22,7 @@ public class Main {
                 System.out.println(g.getGroupID() + ", " + g.getSt1() + ", " + g.getSt2());
             }
         }
+
+        library.outputGroups("src/files/outputGroup.txt");
     }
 }

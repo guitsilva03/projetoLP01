@@ -2,7 +2,6 @@ package library.generator.group.random;
 
 import lp.trabalho1.*;
 
-import java.lang.classfile.constantpool.IntegerEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +12,6 @@ public class Library {
     private GroupInfo[] groupInfo;
     private String[] groupsasString;
     private StudentInfo[] studentUC;
-    // private String[] studentUCasString;
-
-    private String[] studentGroups;
 
     public Library(){
     }
@@ -57,6 +53,16 @@ public class Library {
     }
 
     public void outputGroups(String filepath){
+        String[] studentGroups = new String[groupInfo.length];
+
+        for(int i = 0; i < studentGroups.length; i++){
+            if(groupInfo[i].getSt2() == null){
+                studentGroups[i] = ("%d, %s").formatted(groupInfo[i].getGroupID(), groupInfo[i].getSt1());
+            }else{
+                studentGroups[i] = groupInfo[i].toString();
+            }
+        }
+
         ioDataClass.outputGroups(filepath, studentGroups);
     }
 
@@ -68,20 +74,21 @@ public class Library {
         List<StudentInfo> studentInfoList = new ArrayList<>(Arrays.asList(studentUC));
 
         while(!studentInfoList.isEmpty()) {
-            for (int  j = 0;  j< groupInfo.length; j++) {
+            for (int  j = 0;  j < groupInfo.length; j++) {
                 int position = selectStudent(studentInfoList.size());
                 groupInfo[j].setSt1(studentInfoList.get(position));
                 studentInfoList.remove(position);
+
                 if(studentInfoList.isEmpty()) {
                     break;
                 }
+
                 position = selectStudent(studentInfoList.size());
                 groupInfo[j].setSt2(studentInfoList.get(position));
                 studentInfoList.remove(position);
             }
         }
     }
-
 
     private int selectStudent(int max){
         return (int) (Math.random() * max);
