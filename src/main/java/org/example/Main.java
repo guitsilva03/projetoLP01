@@ -10,8 +10,9 @@ public class Main {
     public static void main(String[] args) {
         Library library = new Library();
         library.loadStudentUCasString("src/files/loadStudentUCasString.txt");
-        for(StudentInfo si : library.getStudentUC()){
-            System.out.println(si.toString());
+        StudentInfo[] arr = library.getStudentUC();
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(i + " -> " + arr[i]);
         }
         library.generateGroups();
         for(GroupInfo si : library.getGroupInfo()){

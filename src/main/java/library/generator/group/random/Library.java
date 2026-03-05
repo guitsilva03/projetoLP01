@@ -3,6 +3,9 @@ package library.generator.group.random;
 import lp.trabalho1.*;
 
 import java.lang.classfile.constantpool.IntegerEntry;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Library {
     private IODataClass ioDataClass = new IODataClass();
@@ -62,39 +65,26 @@ public class Library {
             groupInfo[i] = new GroupInfo();
             groupInfo[i].setGroupID(i + 1);
         }
-        boolean[] validPosition = validPosition();
+        List<StudentInfo> studentInfoList = new ArrayList<>(Arrays.asList(studentUC));
 
-        for(int i = 0; i<groupInfo.length; i++){
-            int student1 = selectStudent();
-            int student2 = selectStudent();
-            while (!validPosition[student1]){
-                student1 = nextStudent(student1);
+        while(!studentInfoList.isEmpty()) {
+            for (int  j = 0;  j< groupInfo.length; j++) {
+                int position = selectStudent(studentInfoList.size());
+                groupInfo[j].setSt1(studentInfoList.get(position));
+                studentInfoList.remove(position);
+                if(studentInfoList.isEmpty()) {
+                    break;
+                }
+                position = selectStudent(studentInfoList.size());
+                groupInfo[j].setSt2(studentInfoList.get(position));
+                studentInfoList.remove(position);
             }
-            while (!validPosition[student2]){
-                student2 = nextStudent(student2);
-            }
-            groupInfo[i].setSt1(studentUC[student1]);
-            groupInfo[i].setSt2(studentUC[student2]);
-
         }
     }
 
-    private int nextStudent(int currentStudent){
-        if(currentStudent == groupInfo.length - 1){
-            return 0;
-        }
-        return currentStudent + 1;
+
+    private int selectStudent(int max){
+        return (int) (Math.random() * max);
     }
 
-    private int selectStudent(){
-        return (int) (Math.random() * studentUC.length);
-    }
-
-    public boolean[] validPosition(){
-        boolean[] validPosition = new boolean[studentUC.length];
-        for(int i = 0; i < validPosition.length; i++){
-            validPosition[i] = true;
-        }
-        return validPosition;
-    }
 }
