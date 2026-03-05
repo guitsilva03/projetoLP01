@@ -6,5 +6,4 @@
 334602,Beatriz Lopes 
 370058,Rafael Pinto
 955921,Inês Santos 
-217109,Miguel Almeida 
-903702,Carolina Carvalho
+217109,Miguel Almeida

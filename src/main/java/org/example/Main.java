@@ -15,8 +15,12 @@ public class Main {
             System.out.println(i + " -> " + arr[i]);
         }
         library.generateGroups();
-        for(GroupInfo si : library.getGroupInfo()){
-            System.out.println(si.toString());
+        for (GroupInfo g : library.getGroupInfo()) {
+            if (g.getSt2() == null) {
+                System.out.println(g.getGroupID() + ", " + g.getSt1());
+            } else {
+                System.out.println(g.getGroupID() + ", " + g.getSt1() + ", " + g.getSt2());
+            }
         }
     }
 }
