@@ -49,6 +49,10 @@ public class Library {
         return studentUC;
     }
 
+    public GroupInfo[] getGroupInfo(){
+        return groupInfo;
+    }
+
     public void outputGroups(String filepath){
         ioDataClass.outputGroups(filepath, studentGroups);
     }
