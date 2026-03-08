@@ -2,7 +2,6 @@ package library.generator.group.random;
 
 import lp.trabalho1.*;
 
-import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,12 +9,13 @@ import java.util.List;
 public class Library {
     private IODataClass ioDataClass = new IODataClass();
 
-    private GroupInfo[] groupInfo;
+    private List<GroupInfo> groupInfo;
     private List<GroupInfo> groupHistoricos;
     private StudentInfo[] studentUC;
 
     public Library(){
         groupHistoricos = new ArrayList<GroupInfo>();
+        groupInfo = new ArrayList<GroupInfo>();
     }
 
     public void loadHistorico(String filepath){
@@ -50,11 +50,6 @@ public class Library {
             int studentId = Integer.parseInt(studentRow[0]);
             studentUC[i] = new StudentInfo(studentId, studentRow[1]);
         }
-
-        //Definir tamanho do array do GroupInfo baseado no número de alunos
-        int numGrupos = (studentUC.length % 2 == 0) ? studentUC.length/2 : studentUC.length/2 + 1;
-        groupInfo = new GroupInfo[numGrupos];
-
     }
 
     public List<GroupInfo> getHistorico(){
@@ -65,24 +60,24 @@ public class Library {
         return studentUC;
     }
 
-    public GroupInfo[] getGroupInfo(){
+    public List<GroupInfo> getGroupInfo(){
         return groupInfo;
     }
 
     public void outputGroups(String filepath){
-        String[] studentGroups = new String[groupInfo.length];
+        String[] studentGroups = new String[groupInfo.size()];
 
         for(int i = 0; i < studentGroups.length; i++){
-            if(groupInfo[i].getSt2() == null){
-                studentGroups[i] = ("%d, %s").formatted(groupInfo[i].getGroupID(), groupInfo[i].getSt1());
+            if(groupInfo.get(i).getSt2() == null){
+                studentGroups[i] = ("%d, %s").formatted(groupInfo.get(i).getGroupID(), groupInfo.get(i).getSt1());
             }else{
-                studentGroups[i] = groupInfo[i].toString();
+                studentGroups[i] = groupInfo.get(i).toString();
             }
         }
 
         //addiciona ao historico quando grava
         for(int i = 0; i  < studentGroups.length; i++){
-            groupHistoricos.add(groupInfo[i]);
+            groupHistoricos.add(groupInfo.get(i));
         }
 
 
@@ -90,52 +85,55 @@ public class Library {
     }
 
     public void generateGroups(){
-        for(int i = 0; i < groupInfo.length; i++){
-            groupInfo[i] = new GroupInfo();
-            groupInfo[i].setGroupID(i + 1);
-        }
-
         List<StudentInfo> studentInfoList = new ArrayList<>(Arrays.asList(studentUC));
+        groupInfo.clear();
 
-        while(!studentInfoList.isEmpty()) {
-            for (int  j = 0;  j < groupInfo.length; j++) {
-                int position = selectStudent(studentInfoList.size());
-                int studentAID = studentInfoList.get(position).getStudentID();
+        for(int j = 0; !studentInfoList.isEmpty(); j++) {
+            GroupInfo group = new GroupInfo();
+            group.setGroupID(j + 1);
 
-                groupInfo[j].setSt1(studentInfoList.get(position));
-                studentInfoList.remove(position);
+            int position = selectStudent(studentInfoList.size());
+            int studentAID = studentInfoList.get(position).getStudentID();
 
-                if(studentInfoList.isEmpty()) {
+            group.setSt1(studentInfoList.get(position));
+            studentInfoList.remove(position);
+
+            if(studentInfoList.isEmpty()) {
+                groupInfo.add(group);
+                break;
+            }
+
+            position = selectStudent(studentInfoList.size());
+            int studentBID = studentInfoList.get(position).getStudentID();
+
+            int startingPosition = position;
+
+            //comparar no historico
+            while(noHistorico(studentAID, studentBID)){
+
+                if(position + 1 == studentInfoList.size()){
+                    position = 0;
+                    studentBID = studentInfoList.get(position).getStudentID();
+                }else{
+                    position++;
+                    studentBID = studentInfoList.get(position).getStudentID();
+                }
+
+                if(position == startingPosition){
                     break;
                 }
-
-                position = selectStudent(studentInfoList.size());
-                int studentBID = studentInfoList.get(position).getStudentID();
-
-                int startingPosition = position;
-
-                //comparar no historico
-                while(noHistorico(studentAID, studentBID)){
-
-                    if(position + 1 == studentInfoList.size()){
-                        position = 0;
-                        studentBID = studentInfoList.get(position).getStudentID();
-                    }else{
-                        position++;
-                        studentBID = studentInfoList.get(position).getStudentID();
-                    }
-
-                    if(position == startingPosition){
-                        break;
-                    }
-                }
-
-                if(noHistorico(studentAID, studentBID))
-                    continue;
-
-                groupInfo[j].setSt2(studentInfoList.get(position));
-                studentInfoList.remove(position);
             }
+
+            if(noHistorico(studentAID, studentBID)) {
+                groupInfo.add(group);
+                continue;
+            }
+
+            group.setSt2(studentInfoList.get(position));
+            studentInfoList.remove(position);
+
+            groupInfo.add(group);
+
         }
     }
 

@@ -60,9 +60,9 @@ public class Main {
     }
 
     private static void importarEstudantes(Library library){
-        System.out.print("Input caminho: ");
-        String path = scanner.nextLine();
-        path = "src/files/loadStudentUCasString.txt";
+        //System.out.print("Input caminho: ");
+        //String path = scanner.nextLine();
+        String path = "src/files/loadStudentUCasString.txt";
         library.loadStudentUCasString(path);
     }
 

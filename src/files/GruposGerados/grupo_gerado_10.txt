@@ -1,0 +1,7 @@
+1, 955921, Inês Santos , 334602, Beatriz Lopes 
+2, 678656, João Santos , 133249, Maria Lopes 
+3, 239112, Ana Almeida
+4, 217109, Miguel Almeida
+5, 365315, Pedro Carvalho 
+6, 213129, Tiago Carvalho 
+7, 370058, Rafael Pinto
