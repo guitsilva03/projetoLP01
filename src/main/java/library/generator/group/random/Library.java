@@ -76,6 +76,8 @@ public class Library {
         while(!studentInfoList.isEmpty()) {
             for (int  j = 0;  j < groupInfo.length; j++) {
                 int position = selectStudent(studentInfoList.size());
+                int studentAID = studentInfoList.get(position).getStudentID();
+
                 groupInfo[j].setSt1(studentInfoList.get(position));
                 studentInfoList.remove(position);
 
@@ -84,6 +86,10 @@ public class Library {
                 }
 
                 position = selectStudent(studentInfoList.size());
+                int studentBID = studentInfoList.get(position).getStudentID();
+
+                //acrestar
+
                 groupInfo[j].setSt2(studentInfoList.get(position));
                 studentInfoList.remove(position);
             }
