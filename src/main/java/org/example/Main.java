@@ -6,6 +6,7 @@ import library.generator.group.random.Library;
 import lp.trabalho1.GroupInfo;
 import lp.trabalho1.StudentInfo;
 
+import java.io.File;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -27,7 +28,8 @@ public class Main {
                 case "3" : gerarGrupos(library); break;
                 case "4" : printGrupos(library); break;
                 case "5" : salvarGrupos(library); break;
-                case "6" : break;
+                case "6" : carregarHistorico(library); break;
+                case "7" : printHistorico(library); break;
                 default:
                     System.out.println("Input Invalid");
             }
@@ -46,6 +48,7 @@ public class Main {
                 4 - Print Grupos
                 5 - Salvar Grupos
                 6 - Carregar Historico
+                7 - Print Historico
                 Input: """);
     }
 
@@ -64,7 +67,25 @@ public class Main {
     }
 
     private static void salvarGrupos(Library library){
-        library.outputGroups("src/files/outputGroup.txt");
+        String path = "src/files/GruposGerados";
+        File pasta = new File(path);
+
+        if (!pasta.exists()) {
+            pasta.mkdirs();
+        }
+
+        File[] files = pasta.listFiles();
+
+        int numberOfGrupos = 0;
+
+        if (files != null) {
+            numberOfGrupos  = files.length;
+        }
+
+        String filePath = path + "/grupo_gerado_%d".formatted(numberOfGrupos+1) + ".txt";
+        library.outputGroups(filePath);
+
+
     }
 
     private static void gerarGrupos(Library library){
@@ -79,5 +100,34 @@ public class Main {
                 System.out.println(g.getGroupID() + ", " + g.getSt1() + ", " + g.getSt2());
             }
         }
+    }
+
+    private static void carregarHistorico(Library library){
+        String path = "src/files/GruposGerados";
+        File pasta = new File(path);
+
+        if (!pasta.exists()) {
+            return;
+        }
+
+        File[] files = pasta.listFiles();
+
+        if (files != null) {
+            for(int i = 0; i < files.length; i++){
+                String filePath = path + "/grupo_gerado_%d".formatted(i+1) + ".txt";
+                library.loadHistorico(filePath);
+            }
+        }
+    }
+
+    public static void printHistorico(Library library){
+        for(GroupInfo g : library.getHistorico()){
+            if (g.getSt2() == null) {
+                System.out.println(g.getGroupID() + ", " + g.getSt1());
+            } else {
+                System.out.println(g.getGroupID() + ", " + g.getSt1() + ", " + g.getSt2());
+            }
+        }
+
     }
 }
