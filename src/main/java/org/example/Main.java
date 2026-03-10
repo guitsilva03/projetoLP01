@@ -7,7 +7,6 @@ import lp.trabalho1.GroupInfo;
 import lp.trabalho1.StudentInfo;
 
 import java.io.File;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -25,16 +24,17 @@ public class Main {
                 case "0" : isRunning = false; break;
                 case "1" : importarEstudantes(library); break;
                 case "2" : printEstudantes(library); break;
-                case "3" : gerarGrupos(library); break;
-                case "4" : printGrupos(library); break;
-                case "5" : salvarGrupos(library); break;
-                case "6" : carregarHistorico(library); break;
-                case "7" : printHistorico(library); break;
+                case "3" : carregarHistorico(library); break;
+                case "4" : printHistorico(library); break;
+                case "5" : addGrupo(library); break;
+                case "6" : gerarGrupos(library); break;
+                case "7" : printGrupos(library); break;
+                case "8" : salvarGrupos(library); break;
+                case "9" : clearGrupos(library); break;
                 default:
                     System.out.println("Input Invalid");
             }
         }
-
 
     }
 
@@ -44,19 +44,38 @@ public class Main {
                 0 - Exit
                 1 - Importar Estudantes
                 2 - Print Estudantes
-                3 - Gerar Grupos
-                4 - Print Grupos
-                5 - Salvar Grupos
-                6 - Carregar Historico
-                7 - Print Historico
+                3 - Carregar Historico
+                4 - Print Historico
+                5 - Adicionar Grupo
+                6 - Gerar Grupos
+                7 - Print Grupos
+                8 - Salvar Grupos
+                9 - Clear Grupos
                 Input: """);
     }
 
     private static void printEstudantes(Library library){
-        StudentInfo[] arr = library.getStudentUC();
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(i + " -> " + arr[i]);
+        for(StudentInfo s : library.getStudentUC()){
+            System.out.println(s);
         }
+    }
+
+    private static void clearGrupos(Library library){
+        library.clearGrupos();
+    }
+
+    private static void addGrupo(Library library){
+        System.out.print("Input Student A ID: ");
+        int stdAID = Integer.parseInt(scanner.nextLine());
+        System.out.print("Input Student A name: ");
+        String stdAName = scanner.nextLine();
+
+        System.out.print("Input Student B ID: ");
+        int stdBID = Integer.parseInt(scanner.nextLine());
+        System.out.print("Input Student B name: ");
+        String stdBName = scanner.nextLine();
+
+        library.createGroup(stdAID, stdAName, stdBID, stdBName);
     }
 
     private static void importarEstudantes(Library library){
@@ -84,8 +103,6 @@ public class Main {
 
         String filePath = path + "/grupo_gerado_%d".formatted(numberOfGrupos+1) + ".txt";
         library.outputGroups(filePath);
-
-
     }
 
     private static void gerarGrupos(Library library){
@@ -128,6 +145,5 @@ public class Main {
                 System.out.println(g.getGroupID() + ", " + g.getSt1() + ", " + g.getSt2());
             }
         }
-
     }
 }

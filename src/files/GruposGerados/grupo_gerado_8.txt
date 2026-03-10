@@ -1,5 +1,0 @@
-1, 213129, Tiago Carvalho , 365315, Pedro Carvalho 
-2, 678656, João Santos , 217109, Miguel Almeida
-3, 955921, Inês Santos , 239112, Ana Almeida
-4, 133249, Maria Lopes 
-5, 334602, Beatriz Lopes , 370058, Rafael Pinto

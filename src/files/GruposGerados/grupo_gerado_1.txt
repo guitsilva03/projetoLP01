@@ -1,5 +1,5 @@
-1, 239112, Ana Almeida, 334602, Beatriz Lopes 
-2, 365315, Pedro Carvalho , 217109, Miguel Almeida
-3, 133249, Maria Lopes , 213129, Tiago Carvalho 
-4, 678656, João Santos , 955921, Inês Santos 
-5, 370058, Rafael Pinto
+1, 213129, Tiago Carvalho , 955921, Inês Santos 
+2, 365315, Pedro Carvalho , 678656, João Santos 
+3, 239112, Ana Almeida, 217109, Miguel Almeida
+4, 133249, Maria Lopes , 370058, Rafael Pinto
+5, 334602, Beatriz Lopes 
