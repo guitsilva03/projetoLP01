@@ -18,6 +18,7 @@ public class Library {
         groupHistoricos = new ArrayList<GroupInfo>();
         groupInfo = new ArrayList<GroupInfo>();
         studentUC = new ArrayList<StudentInfo>();
+        copystudentUC = new ArrayList<StudentInfo>();
     }
 
     public void loadHistorico(String filepath){
